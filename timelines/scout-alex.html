@@ -30,10 +30,99 @@
       gap: 40px;
     }
     .page {
-      width: 680px;
+      width: 100%;
+      max-width: 680px;
       background: var(--warm-cream);
       padding: 48px;
       position: relative;
+    }
+
+    /* MOBILE STYLES */
+    @media screen and (max-width: 720px) {
+      body {
+        padding: 16px 0;
+        gap: 16px;
+      }
+      .page {
+        padding: 32px 24px;
+        border-radius: 0;
+      }
+      .couple-names h2 {
+        font-size: 2.5rem;
+      }
+      .phase-header {
+        margin-left: -24px;
+        margin-right: -24px;
+        padding: 14px 24px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .phase-title {
+        font-size: 1.1rem;
+      }
+      .phase-venue {
+        width: 100%;
+        text-align: left;
+        margin-left: 0;
+        margin-top: 4px;
+      }
+      .phase-divider {
+        display: none;
+      }
+      .timeline-block {
+        grid-template-columns: 60px 1fr;
+        gap: 12px;
+        padding: 16px 0;
+      }
+      .timeline-block::before {
+        left: 52px;
+      }
+      .block-time {
+        font-size: 0.9rem;
+      }
+      .block-title {
+        font-size: 0.7rem;
+      }
+      .block-body {
+        font-size: 0.8rem;
+      }
+      .tldr-card {
+        padding: 24px 20px;
+      }
+      .tldr-columns {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .tldr-title {
+        font-size: 1.8rem;
+      }
+      .tldr-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .tldr-date {
+        text-align: left;
+      }
+      .section-header {
+        font-size: 2rem;
+      }
+      .welcome-letter .section-head {
+        font-size: 1.3rem;
+      }
+      .vendor-card {
+        margin: 16px 0;
+      }
+      .divider {
+        padding: 12px 0;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+      }
+      .divider-stars {
+        font-size: 0.6rem;
+      }
+      .deco {
+        display: none;
+      }
     }
 
     /* =================================
