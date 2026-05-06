@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scout + Alex | Wedding Day Timeline</title>
+  <style>
+    @font-face { font-family: 'Rafaella'; src: url('https://humblyhewn.com/wp-content/uploads/fonts/Rafaella.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Anton'; src: url('https://humblyhewn.com/wp-content/uploads/fonts/Anton-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Freight Sans'; src: url('https://humblyhewn.com/wp-content/uploads/fonts/FreightSans-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'P22 Mackinac Pro'; src: url('https://humblyhewn.com/wp-content/uploads/fonts/P22MackinacPro-Book.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Wayfinder CF'; src: url('https://humblyhewn.com/wp-content/uploads/fonts/WayfinderCF-Thin.woff2') format('woff2'); font-weight: 100; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Instrument Serif'; src: url('https://humblyhewn.com/wp-content/uploads/fonts/InstrumentSerif-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+    :root {
+      --wine-black: #16090E; --poppy: #E85040; --robin-egg: #5AAFBC; --honey-gold: #DBAF42;
+      --bubblegum: #F2A0A8; --garden: #3D6B4E; --warm-cream: #F6EDD8; --white: #FFFFFF;
+      --robin-on-cream: #3D8A98; --gold-on-cream: #967B1C; --pink-on-cream: #B86878;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* SCREEN STYLES */
+    body {
+      background: #e8e3d8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 40px;
+    }
+    .page {
+      width: 680px;
+      background: var(--warm-cream);
+      padding: 48px;
+      position: relative;
+    }
+
+    /* =================================
+       PRINT STYLESHEET
+       ================================= */
+    @media print {
+      /* ---- PAGE SETUP ---- */
+      @page {
+        size: 8.5in 11in;
+        margin: 0.6in 0.5in;  /* Consistent margins on every page */
+      }
+
+      /* ---- RESETS ---- */
+      html {
+        background: var(--warm-cream) !important;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--warm-cream) !important;
+        display: block;
+        gap: 0;
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* ---- CONTENT CONTAINER ---- */
+      .page {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background: var(--warm-cream);
+        display: block;
+        box-sizing: border-box;
+      }
+
+      /* ---- FORCED PAGE BREAKS ---- */
+      .page-welcome {
+        page-break-after: always;
+        break-after: page;
+      }
+      .page-tldr {
+        page-break-after: always;
+        break-after: page;
+      }
+
+      /* ---- KEEP TOGETHER RULES ---- */
+      /* Timeline blocks - the core content unit */
+      .timeline-block {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Phase headers must stay with at least one following block */
+      .phase-header {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        break-after: avoid;
+        page-break-after: avoid;
+        margin-top: 24px;
+        /* Extend to page edges (pull out into @page margin area) */
+        margin-left: -0.5in;
+        margin-right: -0.5in;
+        padding-left: 0.5in;
+        padding-right: 0.5in;
+      }
+
+      /* Section headers stay with content */
+      .section-header {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      /* Dividers stay with what follows */
+      .divider, .divider-wavy {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      /* Cards and boxed content */
+      .tldr-card,
+      .welcome-section,
+      .cta-callout,
+      .deets-content,
+      .vendor-card,
+      .block-note {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Footer stays together */
+      .page-footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-top: 32px;
+      }
+
+      /* ---- DECORATED ELEMENTS ACROSS BREAKS ---- */
+      /* If boxes with backgrounds/borders DO split, repeat the decoration */
+      .tldr-card,
+      .cta-callout,
+      .block-note,
+      .phase-header {
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+
+      /* ---- ORPHANS/WIDOWS ---- */
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+
+      /* ---- HIDE DECORATIVE ELEMENTS ---- */
+      .deco {
+        display: none;
+      }
+
+      /* ---- ENSURE COLORS PRINT ---- */
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+    }
+
+    .divider { text-align: center; padding: 18px 0; font-size: 0.9rem; letter-spacing: 6px; line-height: 1; user-select: none; }
+    .divider-compact { padding: 12px 0; }
+    .divider-dots { letter-spacing: 5px; }
+    .divider-stars { letter-spacing: 5px; font-size: 0.7rem; }
+    .divider.poppy { color: var(--poppy); }
+    .divider.honey-gold { color: var(--honey-gold); }
+    .divider.garden { color: var(--garden); }
+    .divider.bubblegum { color: var(--bubblegum); }
+    .divider-wavy { padding: 18px 0; text-align: center; line-height: 0; }
+    .divider-wavy svg { width: 100%; height: 10px; }
+
+    .deco { position: absolute; pointer-events: none; }
+
+    .welcome-header { text-align: center; margin-bottom: 8px; }
+    .brand-name { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 4px; color: var(--wine-black); opacity: 0.55; }
+    .hero-title { text-align: center; padding: 8px 0; }
+    .hero-title h1 { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 6px; text-transform: uppercase; color: var(--robin-on-cream); line-height: 1; }
+    .hero-subtitle { font-family: 'Wayfinder CF', sans-serif; font-weight: 100; font-size: 0.75rem; letter-spacing: 5px; text-transform: uppercase; color: var(--wine-black); opacity: 0.6; margin-top: 4px; }
+    .couple-names { text-align: center; padding: 12px 0; }
+    .couple-names h2 { font-family: 'Rafaella', Georgia, serif; font-weight: 400; font-size: 3.5rem; color: var(--poppy); line-height: 1.1; }
+    .wedding-date-line { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 1.1rem; color: var(--garden); margin-top: 4px; }
+
+    .vendor-card { margin: 20px auto; max-width: 420px; }
+    .vendor-row { display: flex; align-items: baseline; padding: 4px 0; font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.8rem; color: var(--wine-black); }
+    .vendor-label { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 2px; color: var(--garden); min-width: 90px; }
+    .vendor-dots { flex: 1; border-bottom: 1.5px dotted rgba(22, 9, 14, 0.2); margin: 0 8px; min-width: 20px; height: 0.5em; }
+    .vendor-value { text-align: right; }
+    .vendor-handle { font-family: 'Freight Sans', sans-serif; font-size: 0.65rem; color: var(--robin-on-cream); margin-left: 6px; }
+
+    .welcome-letter { max-width: 100%; margin: 0 auto; padding: 12px 0; }
+    .welcome-letter p { font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.8rem; line-height: 1.65; color: var(--wine-black); margin-bottom: 11px; }
+    .welcome-letter .section-head { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-style: italic; font-size: 1.5rem; color: var(--poppy); text-align: center; margin-top: 4px; margin-bottom: 14px; line-height: 1.2; }
+    .welcome-letter .section-divider { text-align: center; font-size: 0.7rem; letter-spacing: 4px; color: var(--garden); padding: 8px 0 4px; user-select: none; }
+    .welcome-signoff { font-style: italic; margin-top: 14px; }
+    .cta-callout { background: var(--wine-black); color: var(--warm-cream); padding: 16px 20px; border-radius: 6px; margin-top: 20px; margin-bottom: 16px; }
+    .cta-callout .cta-head { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--honey-gold); margin-bottom: 6px; }
+    .cta-callout p { font-family: 'P22 Mackinac Pro', Georgia, serif; color: var(--warm-cream); margin-bottom: 0; font-size: 0.78rem; line-height: 1.6; }
+    .welcome-logo { text-align: center; margin-top: 24px; }
+    .welcome-logo span { font-family: 'Rafaella', Georgia, serif; font-size: 1.6rem; color: var(--poppy); }
+
+    .tldr-card { background: var(--wine-black); border-radius: 8px; padding: 32px 36px; color: var(--warm-cream); }
+    .tldr-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+    .tldr-title { font-family: 'Rafaella', Georgia, serif; font-size: 2.2rem; color: var(--honey-gold); line-height: 1; }
+    .tldr-subtitle { font-family: 'Wayfinder CF', sans-serif; font-weight: 100; font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--warm-cream); opacity: 0.6; margin-top: 4px; }
+    .tldr-date { text-align: right; }
+    .tldr-date-day { font-family: 'Anton', Impact, sans-serif; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--warm-cream); }
+    .tldr-date-full { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--robin-egg); }
+    .tldr-columns { display: flex; gap: 24px; }
+    .tldr-column { flex: 1; }
+    .tldr-phase { margin-bottom: 20px; }
+    .tldr-phase:last-child { margin-bottom: 0; }
+    .tldr-phase-header { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--poppy); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid rgba(246, 237, 216, 0.15); }
+    .tldr-row { display: flex; align-items: baseline; padding: 3px 0; font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.78rem; color: var(--warm-cream); }
+    .tldr-time { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 0.82rem; color: var(--robin-egg); min-width: 58px; }
+    .tldr-event { flex: 1; }
+    .tldr-venue { font-size: 0.7rem; color: var(--warm-cream); opacity: 0.5; margin-left: 8px; }
+    .tldr-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(246, 237, 216, 0.15); }
+    .tldr-contact { font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.75rem; color: var(--warm-cream); opacity: 0.7; }
+    .tldr-contact strong { color: var(--honey-gold); font-weight: 400; }
+
+    .section-header { font-family: 'Rafaella', Georgia, serif; font-weight: 400; font-size: 2.4rem; line-height: 1.1; margin-bottom: 14px; }
+    .section-header.poppy { color: var(--poppy); }
+    .section-header.robin-egg { color: var(--robin-on-cream); }
+    .section-header.garden { color: var(--garden); }
+
+    .deets-content { flex: 1; }
+    .deets-row { display: flex; align-items: baseline; padding: 4px 0; font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.85rem; color: var(--wine-black); }
+    .deets-label { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--garden); min-width: 100px; }
+    .dot-fill { flex: 1; border-bottom: 1.5px dotted rgba(22, 9, 14, 0.2); margin: 0 8px; min-width: 20px; height: 0.6em; }
+
+    .phase-header { background: var(--bubblegum); margin: 24px -48px 0; padding: 18px 48px; display: flex; align-items: center; gap: 12px; position: relative; }
+    .phase-header.robin { background: var(--robin-egg); }
+    .phase-header.gold { background: var(--honey-gold); }
+    .phase-header.garden-bg { background: var(--garden); color: var(--warm-cream); }
+    .phase-title { font-family: 'Anton', Impact, sans-serif; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; color: var(--warm-cream); }
+    .phase-divider { width: 2px; height: 24px; background: var(--warm-cream); opacity: 0.4; }
+    .phase-sub { font-family: 'Freight Sans', sans-serif; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--warm-cream); opacity: 0.9; }
+    .phase-venue { margin-left: auto; text-align: right; }
+    .phase-venue-name { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 0.9rem; color: var(--warm-cream); }
+    .phase-venue-address { font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.7rem; color: var(--warm-cream); opacity: 0.8; }
+
+    .timeline-block { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid rgba(22, 9, 14, 0.08); position: relative; }
+    .timeline-block:last-child { border-bottom: none; }
+    .timeline-block::before { content: ''; position: absolute; left: 72px; top: 0; bottom: 0; width: 0; border-left: 1.5px dotted rgba(22, 9, 14, 0.1); }
+    .block-time { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 1rem; color: var(--robin-on-cream); padding-top: 2px; position: relative; }
+    .block-time::after { content: '✦'; position: absolute; right: -12px; top: 6px; font-size: 0.5rem; color: var(--poppy); }
+    .block-title { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--poppy); margin-bottom: 6px; }
+    .block-body { font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.82rem; line-height: 1.65; color: var(--wine-black); }
+    .block-body p { margin-bottom: 10px; }
+    .block-body p:last-child { margin-bottom: 0; }
+    .block-body ul { margin: 8px 0 8px 16px; }
+    .block-body ul li { margin-bottom: 4px; position: relative; list-style: none; padding-left: 14px; }
+    .block-body ul li::before { content: '·'; position: absolute; left: 0; color: var(--poppy); font-weight: bold; }
+    .block-body ol { margin: 8px 0 8px 20px; padding: 0; }
+    .block-body ol li { margin-bottom: 8px; list-style: decimal; }
+    .block-body ol li:last-child { margin-bottom: 0; }
+    .block-body strong { color: var(--poppy); font-weight: 400; }
+    .block-body em { color: var(--garden); font-style: italic; }
+    .block-body h4 { font-family: 'Freight Sans', sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--garden); margin: 12px 0 6px 0; }
+    .block-body h4:first-child { margin-top: 0; }
+    .block-note { background: rgba(93, 175, 188, 0.12); border-left: 2px solid var(--robin-egg); padding: 10px 14px; margin-top: 10px; font-size: 0.78rem; font-style: italic; color: var(--wine-black); }
+
+    .page-footer { text-align: center; padding-top: 24px; margin-top: 32px; border-top: 1px solid rgba(22, 9, 14, 0.1); }
+    .footer-logo { font-family: 'Rafaella', Georgia, serif; font-size: 2rem; color: var(--poppy); }
+    .footer-tagline { font-family: 'Wayfinder CF', sans-serif; font-weight: 100; font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--garden); margin-top: 4px; }
+    .footer-contact { font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.78rem; color: var(--wine-black); margin-top: 12px; }
+    .footer-note { font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.72rem; font-style: italic; color: var(--wine-black); opacity: 0.5; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1: WELCOME -->
+<div class="page page-welcome">
+  <svg class="deco" style="top: 40px; right: 44px; width: 22px; height: 22px; color: var(--poppy); transform: rotate(12deg);" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5L12.2 7.1L18.2 7.6L13.5 11.5L15 17.5L10 14.2L5 17.5L6.5 11.5L1.8 7.6L7.8 7.1Z"/></svg>
+  <svg class="deco" style="top: 280px; left: 32px; width: 18px; height: 18px; color: var(--honey-gold); transform: rotate(-15deg);" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2L12 7.4L17.8 7.8L13.2 11.6L14.6 17.2L10 14L5.4 17.2L6.8 11.6L2.2 7.8L8 7.4Z"/></svg>
+  <svg class="deco" style="bottom: 180px; right: 28px; width: 20px; height: 20px; color: var(--robin-egg); transform: rotate(8deg);" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.8L12.4 7L18 7.5L13.6 11.3L14.8 17L10 14.4L5.2 17L6.4 11.3L2 7.5L7.6 7Z"/></svg>
+  <svg class="deco" style="bottom: 120px; left: 36px; width: 32px; height: 24px; color: var(--bubblegum); transform: rotate(-25deg) scaleX(-1);" viewBox="0 0 36 28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 8C10 6 20 10 30 20"/><path d="M24 16L30 20L25 24"/></svg>
+
+  <div class="welcome-header"><div class="brand-name">Humbly Hewn Photography</div></div>
+  <div class="divider divider-dots poppy">&middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot;</div>
+
+  <div class="couple-names">
+    <h2>Scout + Alex</h2>
+    <div class="wedding-date-line">Saturday, May 9, 2026</div>
+  </div>
+
+  <div class="vendor-card">
+    <div class="vendor-row"><span class="vendor-label">Venue</span><span class="vendor-dots"></span><span class="vendor-value">Firehouse KC</span></div>
+    <div class="vendor-row"><span class="vendor-label">Coordinator</span><span class="vendor-dots"></span><span class="vendor-value">Jaclyn Lawson<span class="vendor-handle">@veilevents</span></span></div>
+    <div class="vendor-row"><span class="vendor-label">Florist</span><span class="vendor-dots"></span><span class="vendor-value">Sweet Chamomile Floral</span></div>
+    <div class="vendor-row"><span class="vendor-label">DJ</span><span class="vendor-dots"></span><span class="vendor-value">Crystal Pro KC</span></div>
+    <div class="vendor-row"><span class="vendor-label">Hair + Makeup</span><span class="vendor-dots"></span><span class="vendor-value">White Carpet Bride</span></div>
+    <div class="vendor-row"><span class="vendor-label">Catering</span><span class="vendor-dots"></span><span class="vendor-value">Storia Catering</span></div>
+  </div>
+
+  <div class="divider divider-stars honey-gold">✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <div class="hero-title">
+    <h1>Welcome</h1>
+    <div class="hero-subtitle">To Your Wedding Day Timeline</div>
+  </div>
+
+  <div class="welcome-letter">
+    <p>Hello Scout,</p>
+    <p>We're in the final stretch! Below is your timeline, built from everything you shared. I've mapped out exactly when things happen so you can relax and be present.</p>
+
+    <div class="welcome-section">
+      <div class="section-divider">· · · · · · ·</div>
+      <p class="section-head">Why This Timeline Matters</p>
+      <p>I used to wear a lot of hats on wedding days. Photographer, timeline keeper, family wrangler, DJ liaison. I was good at it. But every minute I spent tracking someone down was a minute I wasn't with you. And your day is full of moments that only happen once: the glance across the room when it hits you that you're married, your dad pretending he's totally fine and not crying at all. Those moments don't wait. If I'm solving a logistics problem, I miss them.</p>
+      <p>So I made a choice. I want to be your photographer, fully present and fully yours, not a coordinator with a camera.</p>
+    </div>
+
+    <div class="welcome-section">
+      <div class="section-divider">· · · · · · ·</div>
+      <p class="section-head">Who Owns The Timeline</p>
+      <p>Someone needs to run point on your wedding day, and I need it to not be me. You have Jaclyn from Veil Events, so you're in great hands. She knows the plan inside and out, and she'll run point so you and your people can just be present.</p>
+    </div>
+
+    <div class="welcome-section">
+      <div class="section-divider">· · · · · · ·</div>
+      <p class="section-head">The Tradeoff</p>
+      <p>The more your people know the plan and take ownership of it, the more I can do what you're actually paying me for. When something goes sideways, I'll flag it to Jaclyn. Then I stay with you. I'm not disappearing to track down your dad for a first look. I want to be right there when he sees you. That's the photo. That's what you'll frame.</p>
+    </div>
+
+    <div class="cta-callout">
+      <p class="cta-head">Share This Timeline</p>
+      <p>Please share this with your wedding party, parents, and anyone else who needs to know the plan. The more seriously everyone takes this, the more incredible your album will be. I promise it's worth it.</p>
+    </div>
+
+    <p class="welcome-signoff">I can't wait,<br>-Erin</p>
+  </div>
+  <div class="welcome-logo"><span>Humbly Hewn</span></div>
+</div>
+
+<!-- PAGE 2: TL;DR QUICK REFERENCE -->
+<div class="page page-tldr">
+  <svg class="deco" style="top: 32px; right: 36px; width: 20px; height: 20px; color: var(--honey-gold); transform: rotate(15deg);" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5L12.2 7.1L18.2 7.6L13.5 11.5L15 17.5L10 14.2L5 17.5L6.5 11.5L1.8 7.6L7.8 7.1Z"/></svg>
+  <svg class="deco" style="bottom: 40px; left: 32px; width: 18px; height: 18px; color: var(--poppy); transform: rotate(-12deg);" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2L12 7.4L17.8 7.8L13.2 11.6L14.6 17.2L10 14L5.4 17.2L6.8 11.6L2.2 7.8L8 7.4Z"/></svg>
+
+  <div class="section-header robin-egg" style="text-align: center; margin-bottom: 8px;">At a Glance</div>
+  <div style="text-align: center; margin-bottom: 24px;"><span style="font-family: 'Wayfinder CF', sans-serif; font-weight: 100; font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--wine-black); opacity: 0.5;">Print this page for your wedding party</span></div>
+
+  <div class="tldr-card">
+    <div class="tldr-header">
+      <div>
+        <div class="tldr-title">Quick Reference</div>
+        <div class="tldr-subtitle">Scout + Alex</div>
+      </div>
+      <div class="tldr-date">
+        <div class="tldr-date-day">SATURDAY</div>
+        <div class="tldr-date-full">May 9, 2026</div>
+      </div>
+    </div>
+
+    <div class="tldr-columns">
+      <div class="tldr-column">
+        <div class="tldr-phase">
+          <div class="tldr-phase-header">Getting Ready</div>
+          <div class="tldr-row"><span class="tldr-time">1:00p</span><span class="tldr-event">Erin arrives</span></div>
+          <div class="tldr-row"><span class="tldr-time">1:30p</span><span class="tldr-event">Details with Scout</span></div>
+          <div class="tldr-row"><span class="tldr-time">2:00p</span><span class="tldr-event">ALL hair/makeup done</span></div>
+          <div class="tldr-row"><span class="tldr-time">~2:15p</span><span class="tldr-event">Robe photos</span></div>
+          <div class="tldr-row"><span class="tldr-time">2:30p</span><span class="tldr-event">2nd photographer arrives</span></div>
+          <div class="tldr-row"><span class="tldr-time">~2:40p</span><span class="tldr-event">Scout into dress</span></div>
+          <div class="tldr-row"><span class="tldr-time">3:00p</span><span class="tldr-event">Men fully dressed</span></div>
+          <div class="tldr-row"><span class="tldr-time">3:00p</span><span class="tldr-event">First look: parents</span></div>
+          <div class="tldr-row"><span class="tldr-time">3:15p</span><span class="tldr-event">First look: bridesmaids</span></div>
+          <div class="tldr-row"><span class="tldr-time">3:30p</span><span class="tldr-event">Wedding party portraits</span></div>
+        </div>
+
+        <div class="tldr-phase">
+          <div class="tldr-phase-header">Ceremony</div>
+          <div class="tldr-row"><span class="tldr-time">4:00p</span><span class="tldr-event">Hide + ceremony prep</span></div>
+          <div class="tldr-row"><span class="tldr-time">4:30p</span><span class="tldr-event">Ceremony</span></div>
+          <div class="tldr-row"><span class="tldr-time">~5:00p</span><span class="tldr-event">Recessional</span></div>
+        </div>
+
+        <div class="tldr-phase">
+          <div class="tldr-phase-header">Post-Ceremony</div>
+          <div class="tldr-row"><span class="tldr-time">~5:05p</span><span class="tldr-event">Family portraits</span><span class="tldr-venue">Firehouse</span></div>
+          <div class="tldr-row"><span class="tldr-time">~5:35p</span><span class="tldr-event">Travel to Nelson-Atkins</span></div>
+          <div class="tldr-row"><span class="tldr-time">~5:45p</span><span class="tldr-event">Wedding party portraits</span></div>
+          <div class="tldr-row"><span class="tldr-time">~6:10p</span><span class="tldr-event">Couple portraits</span></div>
+        </div>
+      </div>
+
+      <div class="tldr-column">
+        <div class="tldr-phase">
+          <div class="tldr-phase-header">Reception</div>
+          <div class="tldr-row"><span class="tldr-time">7:15p</span><span class="tldr-event">Grand entrance</span></div>
+          <div class="tldr-row"><span class="tldr-time">7:20p</span><span class="tldr-event">Welcome speech</span></div>
+          <div class="tldr-row"><span class="tldr-time">7:25p</span><span class="tldr-event">Dinner</span></div>
+          <div class="tldr-row"><span class="tldr-time">~7:50p</span><span class="tldr-event">Sunset portraits</span></div>
+          <div class="tldr-row"><span class="tldr-time">8:10p</span><span class="tldr-event">Toasts</span></div>
+          <div class="tldr-row"><span class="tldr-time">8:30p</span><span class="tldr-event">Cake cutting</span></div>
+          <div class="tldr-row"><span class="tldr-time">8:35p</span><span class="tldr-event">First dance</span></div>
+          <div class="tldr-row"><span class="tldr-time">8:40p</span><span class="tldr-event">Parent dances</span></div>
+          <div class="tldr-row"><span class="tldr-time">8:55p</span><span class="tldr-event">Open dancing</span></div>
+          <div class="tldr-row"><span class="tldr-time">10:55p</span><span class="tldr-event">Last dance</span></div>
+          <div class="tldr-row"><span class="tldr-time">11:00p</span><span class="tldr-event">Exit</span></div>
+        </div>
+
+        <div class="tldr-phase">
+          <div class="tldr-phase-header">Venues</div>
+          <div class="tldr-row"><span class="tldr-event">Firehouse KC</span><span class="tldr-venue">4518 Troost Ave</span></div>
+          <div class="tldr-row"><span class="tldr-event">Nelson-Atkins</span><span class="tldr-venue">sculpture garden</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tldr-footer">
+      <div class="tldr-contact">
+        <strong>Day-of cell:</strong> 816-695-9996<br>
+        <span style="opacity: 0.6;">erin@humblyhewnphotography.com</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;"><span style="font-family: 'P22 Mackinac Pro', Georgia, serif; font-size: 0.75rem; font-style: italic; color: var(--wine-black); opacity: 0.5;">Full details on the following pages</span></div>
+</div>
+
+<!-- TIMELINE CONTENT (flows naturally for print) -->
+<div class="page page-timeline">
+  <svg class="deco" style="top: 36px; right: 40px; width: 20px; height: 20px; color: var(--garden); transform: rotate(18deg);" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5L12.2 7.1L18.2 7.6L13.5 11.5L15 17.5L10 14.2L5 17.5L6.5 11.5L1.8 7.6L7.8 7.1Z"/></svg>
+
+  <div class="section-header poppy">The Deets</div>
+
+  <div class="deets-content" style="margin-bottom: 16px;">
+    <div class="deets-row"><span class="deets-label">Couple</span><span class="dot-fill"></span><span>Scout + Alex</span></div>
+    <div class="deets-row"><span class="deets-label">Date</span><span class="dot-fill"></span><span>Saturday, May 9, 2026</span></div>
+    <div class="deets-row"><span class="deets-label">Venues</span><span class="dot-fill"></span><span>Firehouse KC + Nelson-Atkins</span></div>
+    <div class="deets-row"><span class="deets-label">Coverage</span><span class="dot-fill"></span><span>1:00p – 11:00p (10 hours)</span></div>
+    <div class="deets-row"><span class="deets-label">2nd Shooter</span><span class="dot-fill"></span><span>2:30p – 10:30p (8 hours)</span></div>
+  </div>
+
+  <div class="divider-wavy"><svg viewBox="0 0 584 10" fill="none"><path d="M0,6 C15,2 30,1 48,6 C66,10 78,9 96,6 C114,2 130,1 148,6 C166,10 178,9 196,6 C214,2 230,1 248,6 C266,10 278,9 296,6 C314,2 330,1 348,6 C366,10 378,9 396,6 C414,2 430,1 448,6 C466,10 478,9 496,6 C514,2 530,1 548,6 C566,10 578,9 584,6" stroke="#3D6B4E" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+
+  <div class="phase-header">
+    <span class="phase-title">PRE-CEREMONY</span>
+    <span class="phase-divider"></span>
+    <span class="phase-sub">Getting Ready</span>
+    <div class="phase-venue">
+      <div class="phase-venue-name">Firehouse KC</div>
+      <div class="phase-venue-address">4518 Troost Ave, Kansas City</div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">1:00p</div>
+    <div class="block-content">
+      <div class="block-title">Erin Arrives + Gear Setup</div>
+      <div class="block-body">
+        <p>I'll arrive and set up my gear in the reception space first, then come find you at 1:30 to collect details.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">1:30p</div>
+    <div class="block-content">
+      <div class="block-title">Details Photography</div>
+      <div class="block-body">
+        <p>Please have any details you'd like photographed in a small bag or box:</p>
+        <ul>
+          <li>Paper suite</li>
+          <li>Day-of jewelry</li>
+          <li>Vow books</li>
+          <li>Family heirlooms</li>
+          <li>Flat-lay florals from your florist</li>
+          <li>All wedding rings*</li>
+        </ul>
+        <p>I'll also take Scout's full outfit including shoes. Please ensure anything that needs steaming (including veil) is ready!</p>
+        <p><strong>*ALL RINGS must be with your details.</strong> His and hers, all bands, engagement ring. If a ring isn't in your details bag, I can't guarantee it gets photographed.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">2:00p</div>
+    <div class="block-content">
+      <div class="block-title">Hair + Makeup Complete</div>
+      <div class="block-body">
+        <h4>This is a hard deadline</h4>
+        <p><strong>ALL hair and makeup for EVERYONE (including Scout) must be 100% complete by 2:00p.</strong></p>
+        <p>If hair and makeup runs late, everything compresses: dress time gets rushed, portraits get cut short, and I end up choosing between skipping moments or making you late for your own ceremony.</p>
+        <h4>Why this matters</h4>
+        <p>When everyone sticks to this timeline, you get breathing room. Time to have a snack, use the restroom, take a breath before the big transformation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~2:15p</div>
+    <div class="block-content">
+      <div class="block-title">Robe Photos — Scout + All Bridesmaids</div>
+      <div class="block-body">
+        <p>While everyone is freshly ready and still in robes, we'll grab a group photo. This is the "before" to the "after" when you're all dressed!</p>
+        <p><strong>All bridesmaids must have hair and makeup complete for this photo.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~2:20p</div>
+    <div class="block-content">
+      <div class="block-title">Everyone Gets Dressed</div>
+      <div class="block-body">
+        <p>Immediately after robe photos, everyone disperses to dress:</p>
+        <ul>
+          <li><strong>Bridesmaids:</strong> Into their dresses for the day</li>
+          <li><strong>Scout:</strong> Into any structural undergarments/support if needed (no later than 2:30p)</li>
+        </ul>
+        <p><strong>Anyone helping Scout dress must already be fully dressed themselves.</strong> No leggings and hoodies in the photos where Scout goes from fiancée to bride!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">2:30p</div>
+    <div class="block-content">
+      <div class="block-title">2nd Photographer Arrives</div>
+      <div class="block-body">
+        <p>My 2nd photographer arrives and heads straight to the men's getting ready space to hang with Alex and the guys.</p>
+        <h4>Men's side</h4>
+        <ul>
+          <li>Photographing final details: ties, shoes, jackets, hair touchups</li>
+          <li>~2:50p: Alex individual portraits while freshly dressed</li>
+          <li>Men stay in their room until 2nd comes to get them at 3:30p</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~2:40p</div>
+    <div class="block-content">
+      <div class="block-title">Scout Into Dress + Bridal Portraits</div>
+      <div class="block-body">
+        <p>We'll have special people step in to help you put on the finishing touches.</p>
+        <p>I give plenty of time here so if any small adjustments are needed, there's no rush. This is also when I'll take bridal portraits while you're at your freshest!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">3:00p</div>
+    <div class="block-content">
+      <div class="block-title">First Look with Parents</div>
+      <div class="block-body">
+        <p>Prepare tissues! A special moment with Scout and her parents before the ceremony. Happy tears likely!</p>
+        <div class="block-note">My 2nd photographer will join me for first looks to cover alternate angles.</div>
+        <h4>Men's side at 3:00p</h4>
+        <p><strong>All men must be fully dressed and ready.</strong> They'll hang tight in their room until 3:30p.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">3:15p</div>
+    <div class="block-content">
+      <div class="block-title">First Look with Bridesmaids</div>
+      <div class="block-body">
+        <p>Another sweet moment as the bridesmaids see Scout all dressed and ready. Tissues handy!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">3:30p</div>
+    <div class="block-content">
+      <div class="block-title">Wedding Party Portraits — Parallel</div>
+      <div class="block-body">
+        <h4>Women's side (Erin)</h4>
+        <ul>
+          <li>Full bridesmaids group</li>
+          <li>One-on-ones with each bridesmaid</li>
+        </ul>
+        <h4>Men's side (2nd photographer)</h4>
+        <ul>
+          <li>2nd grabs the guys from their room</li>
+          <li>Full groomsmen group</li>
+          <li>One-on-ones with each groomsman</li>
+        </ul>
+        <p>We coordinate to make sure no one sees each other accidentally!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">4:00p</div>
+    <div class="block-content">
+      <div class="block-title">Hard Stop: Pre-Ceremony</div>
+      <div class="block-body">
+        <p><strong>All portraits end at least 30 minutes before ceremony. Non-negotiable.</strong></p>
+        <p>You need time to:</p>
+        <ul>
+          <li>Hide away</li>
+          <li>Use the restroom</li>
+          <li>Touch up hair and makeup</li>
+          <li>Drink some water</li>
+          <li>Re-center yourselves</li>
+        </ul>
+        <p>I want you present when you walk down that aisle, not rushing in with your heart racing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider divider-stars divider-compact garden">✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <div class="phase-header garden-bg">
+    <span class="phase-title">CEREMONY</span>
+    <span class="phase-divider"></span>
+    <span class="phase-sub">The Main Event</span>
+    <div class="phase-venue">
+      <div class="phase-venue-name">Firehouse KC Courtyard</div>
+      <div class="phase-venue-address">4518 Troost Ave, Kansas City</div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">4:30p</div>
+    <div class="block-content">
+      <div class="block-title">Ceremony</div>
+      <div class="block-body">
+        <p>You get MARRIED here, nbd!! I fight happy tears.</p>
+        <p>Your ceremony includes a <strong>hand-fasting</strong>, which I'm so excited to photograph. This is one of those moments where having two photographers really pays off.</p>
+        <h4>Officiant announcements</h4>
+        <p>I highly recommend having your officiant announce:</p>
+        <ol>
+          <li><strong>Phones away.</strong> If folks don't hear this out loud, they're far more likely to be in the aisle with a phone out.</li>
+          <li><strong>Family portrait people stay seated.</strong> We start family portraits immediately after. No wandering to cocktail hour!</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~5:00p</div>
+    <div class="block-content">
+      <div class="block-title">Recessional + Private Moment</div>
+      <div class="block-body">
+        <p>You walk back down the aisle as husband and wife. I'll stop you 2/3 down the aisle for one more kiss! Then you exit and take a beat of privacy to soak it in.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~5:05p</div>
+    <div class="block-content">
+      <div class="block-title">Family Portraits</div>
+      <div class="block-body">
+        <p>Shortly after your recessional, you two come back and we take family portraits using your list.</p>
+        <h4>Critical info</h4>
+        <ul>
+          <li><strong>Share your family portrait list with everyone ahead of time</strong></li>
+          <li>Everyone is locked in place for ~30 minutes</li>
+          <li>No wandering to cocktail hour, no bathroom breaks, no "I'll be right back"</li>
+          <li><strong>If someone is missing when we call their group, we take the photo without them.</strong> Please make sure everyone understands this.</li>
+        </ul>
+        <div class="block-note">Sharla and Mike (both on Alex's side) have limited mobility. I'll position them first and minimize their movement.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~5:35p</div>
+    <div class="block-content">
+      <div class="block-title">Travel to Nelson-Atkins</div>
+      <div class="block-body">
+        <p>Wedding party loads up! I'll ride along with you to the sculpture garden. (~10 min drive)</p>
+        <h4>2nd photographer stays at Firehouse</h4>
+        <p>While I'm at Nelson-Atkins with the wedding party, my 2nd photographer stays at Firehouse to cover:</p>
+        <ul>
+          <li>Cocktail hour (guest snapshots)</li>
+          <li>Reception details before guests enter the main hall</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-header robin">
+    <span class="phase-title">PORTRAITS</span>
+    <span class="phase-divider"></span>
+    <span class="phase-sub">Nelson-Atkins</span>
+    <div class="phase-venue">
+      <div class="phase-venue-name">Sculpture Garden</div>
+      <div class="phase-venue-address">4525 Oak St, Kansas City</div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~5:45p</div>
+    <div class="block-content">
+      <div class="block-title">Full Wedding Party Portraits</div>
+      <div class="block-body">
+        <p>We'll grab your full crew for photos celebrating you! The sculpture garden is an incredible backdrop.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~6:10p</div>
+    <div class="block-content">
+      <div class="block-title">Scout + Alex Portraits</div>
+      <div class="block-body">
+        <p>We'll send your wedding party back to the bus while we hang back for couple portraits.</p>
+        <p>Weather-and-light-depending, we'll also step out for sunset photos later in the evening.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~6:30p</div>
+    <div class="block-content">
+      <div class="block-title">Travel Back to Firehouse</div>
+      <div class="block-body">
+        <p>We head back to Firehouse KC for your reception.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider divider-stars divider-compact garden">✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <div class="phase-header gold">
+    <span class="phase-title">RECEPTION</span>
+    <span class="phase-divider"></span>
+    <span class="phase-sub">Time to Celebrate</span>
+    <div class="phase-venue">
+      <div class="phase-venue-name">Firehouse KC</div>
+      <div class="phase-venue-address">Main Hall</div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~6:45p</div>
+    <div class="block-content">
+      <div class="block-title">Reception Setup</div>
+      <div class="block-body">
+        <p>When we arrive, I'll need ~15 minutes to set up before your grand entrance.</p>
+        <ul>
+          <li>Check in with Crystal Pro KC</li>
+          <li>Set up lighting equipment</li>
+          <li>Get positioned for your entrance</li>
+        </ul>
+        <p>By the time those doors open, I'll be completely locked in on you two.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">7:00p</div>
+    <div class="block-content">
+      <div class="block-title">Guests Find Seats</div>
+      <div class="block-body">
+        <p>Cocktail hour wraps up and guests move into the main hall for dinner.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">7:15p</div>
+    <div class="block-content">
+      <div class="block-title">Grand Entrance</div>
+      <div class="block-body">
+        <p>Your wedding party enters as a group, then you two enter hand in hand as newlyweds!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">7:20p</div>
+    <div class="block-content">
+      <div class="block-title">Welcome Speech</div>
+      <div class="block-body">
+        <p>Tony (Alex's dad) kicks things off with a welcome speech.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">7:25p</div>
+    <div class="block-content">
+      <div class="block-title">Dinner</div>
+      <div class="block-body">
+        <p>My 2nd photographer and I will take our breaks and eat when you eat, so we're ready for the next event when you are.</p>
+        <p>None of your guests want a camera in their face while enjoying their meal, I promise!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">~7:50p</div>
+    <div class="block-content">
+      <div class="block-title">Sunset Portraits</div>
+      <div class="block-body">
+        <p>We'll keep an eye on the light, and when it's right we'll grab you two for 10-15 more minutes of sunset portraits.</p>
+        <p><strong>Golden hour on May 9 is around 8:20p.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">8:10p</div>
+    <div class="block-content">
+      <div class="block-title">Toasts</div>
+      <div class="block-body">
+        <p>Your toast lineup:</p>
+        <ul>
+          <li>Greg Senyk (father of the bride)</li>
+          <li>Sage + Mariah (maids of honor)</li>
+          <li>Nick + David (best men)</li>
+          <li>Tony Thill (father of the groom)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">8:30p</div>
+    <div class="block-content">
+      <div class="block-title">Cake Cutting</div>
+      <div class="block-body">
+        <p>Time to cut the cake! McClain's Cakery did the honors.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">8:35p</div>
+    <div class="block-content">
+      <div class="block-title">First Dance</div>
+      <div class="block-body">
+        <p>Your first dance as a married couple!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">8:40p</div>
+    <div class="block-content">
+      <div class="block-title">Parent Dances</div>
+      <div class="block-body">
+        <ul>
+          <li>Father-daughter dance</li>
+          <li>Mother-son dance</li>
+          <li>Anniversary dance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">8:55p</div>
+    <div class="block-content">
+      <div class="block-title">Open Dancing</div>
+      <div class="block-body">
+        <p>Time to rage!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">10:30p</div>
+    <div class="block-content">
+      <div class="block-title">2nd Photographer Departs</div>
+      <div class="block-body">
+        <p>My 2nd photographer wraps up for the evening. I'll stay through your exit!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">10:55p</div>
+    <div class="block-content">
+      <div class="block-title">Last Dance</div>
+      <div class="block-body">
+        <p>One last dance together before the grand finale!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">11:00p</div>
+    <div class="block-content">
+      <div class="block-title">Exit</div>
+      <div class="block-body">
+        <p>Your grand exit! I'll be positioned to photograph your getaway.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider divider-dots divider-compact bubblegum">&middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot; &middot;</div>
+
+  <div class="timeline-block">
+    <div class="block-time">11:00p</div>
+    <div class="block-content">
+      <div class="block-title">Erin Departs</div>
+      <div class="block-body">
+        <p>I'll get to work on backups and sneak peeks which I'll send within the next 48 hours. Get excited!</p>
+        <p><strong>Full gallery delivery: 5-7 weeks.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-wavy"><svg viewBox="0 0 584 10" fill="none"><path d="M0,6 C15,2 30,1 48,6 C66,10 78,9 96,6 C114,2 130,1 148,6 C166,10 178,9 196,6 C214,2 230,1 248,6 C266,10 278,9 296,6 C314,2 330,1 348,6 C366,10 378,9 396,6 C414,2 430,1 448,6 C466,10 478,9 496,6 C514,2 530,1 548,6 C566,10 578,9 584,6" stroke="#E85040" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+
+  <div class="page-footer">
+    <div class="footer-logo">Humbly Hewn</div>
+    <div class="footer-tagline">Photography</div>
+    <div class="footer-contact">erin@humblyhewnphotography.com</div>
+    <div class="footer-contact">Day-of cell: 816-695-9996</div>
+    <div class="footer-note">Questions about your timeline? Just reply to the email this came with.</div>
+  </div>
+</div>
+
+</body>
+</html>
