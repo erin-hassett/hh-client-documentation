@@ -129,82 +129,42 @@
        PRINT STYLESHEET
        ================================= */
     @media print {
-      /* ---- PAGE SETUP ---- */
       @page {
         size: 8.5in 11in;
-        margin: 0.6in 0.5in;  /* Consistent margins on every page */
+        margin: 0;
       }
 
-      /* ---- RESETS ---- */
-      html {
-        background: var(--warm-cream) !important;
-      }
-
-      body {
+      html, body {
         margin: 0;
         padding: 0;
-        background: var(--warm-cream) !important;
-        display: block;
-        gap: 0;
-        box-sizing: border-box;
+        background: #F6EDD8 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
 
-      /* ---- CONTENT CONTAINER ---- */
-      .page {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        background: var(--warm-cream);
+      body {
         display: block;
+        gap: 0;
+      }
+
+      .page {
+        width: 8.5in;
+        min-height: auto;
+        padding: 0.6in 0.7in;
+        margin: 0;
+        background: #F6EDD8 !important;
         box-sizing: border-box;
       }
 
-      /* ---- FORCED PAGE BREAKS ---- */
-      .page-welcome {
-        page-break-after: always;
-        break-after: page;
-      }
+      /* Force specific pages to break after */
+      .page-welcome,
       .page-tldr {
         page-break-after: always;
         break-after: page;
       }
 
-      /* ---- KEEP TOGETHER RULES ---- */
-      /* Timeline blocks - the core content unit */
-      .timeline-block {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-
-      /* Phase headers must stay with at least one following block */
-      .phase-header {
-        break-inside: avoid;
-        page-break-inside: avoid;
-        break-after: avoid;
-        page-break-after: avoid;
-        margin-top: 24px;
-        /* Extend to page edges (pull out into @page margin area) */
-        margin-left: -0.5in;
-        margin-right: -0.5in;
-        padding-left: 0.5in;
-        padding-right: 0.5in;
-      }
-
-      /* Section headers stay with content */
-      .section-header {
-        break-after: avoid;
-        page-break-after: avoid;
-      }
-
-      /* Dividers stay with what follows */
-      .divider, .divider-wavy {
-        break-after: avoid;
-        page-break-after: avoid;
-      }
-
-      /* Cards and boxed content */
+      /* Keep content blocks together */
+      .timeline-block,
       .tldr-card,
       .welcome-section,
       .cta-callout,
@@ -215,35 +175,40 @@
         page-break-inside: avoid;
       }
 
-      /* Footer stays together */
+      /* Phase headers stay with next content */
+      .phase-header {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        break-after: avoid;
+        page-break-after: avoid;
+        margin-left: -0.7in;
+        margin-right: -0.7in;
+        padding-left: 0.7in;
+        padding-right: 0.7in;
+      }
+
+      /* Section headers stay with content */
+      .section-header,
+      .divider,
+      .divider-wavy {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
       .page-footer {
         break-inside: avoid;
         page-break-inside: avoid;
-        margin-top: 32px;
       }
 
-      /* ---- DECORATED ELEMENTS ACROSS BREAKS ---- */
-      /* If boxes with backgrounds/borders DO split, repeat the decoration */
-      .tldr-card,
-      .cta-callout,
-      .block-note,
-      .phase-header {
-        box-decoration-break: clone;
-        -webkit-box-decoration-break: clone;
-      }
-
-      /* ---- ORPHANS/WIDOWS ---- */
       p {
         orphans: 3;
         widows: 3;
       }
 
-      /* ---- HIDE DECORATIVE ELEMENTS ---- */
       .deco {
         display: none;
       }
 
-      /* ---- ENSURE COLORS PRINT ---- */
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
